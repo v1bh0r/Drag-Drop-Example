@@ -1,0 +1,33 @@
+<div id = 'container'>
+  <h1>My Circles</h1>
+  <div style="height: 150px;width:500px;margin-bottom:30px;overflow-x:hidden;overflow-y: auto; position: relative">
+	  <ul style="list-style-type: none;">
+		  <%(1..50).each do |id|%>
+			  <li style="display: inline;">
+				  <%=image_tag "rails.png", :class=>"photo",:id=>"photo_#{id}",:style=>"cursor:move;position=>static" %>
+		    </li>
+		    <%= draggable_element("photo_#{id}",:containment=>'container',:revert=>true,:superghosting=>true  ) %>
+		  <%end%>
+	  </ul>
+  </div>
+  <div style="margin-bottom:30px">
+  - - - - - - - - - - - <%= image_tag("drag-arrow.png")-%>&nbsp;Drag your Contacts to the Circles below - - - - - - - - - - -
+  </div>
+  <div id = "circle_icons">
+    <%= image_tag("circle-green.png",:size=>"125x125", :id=>'green')%>
+    <%= image_tag("circle-yellow.png",:size=>"125x125", :id=>'yellow')%>
+  </div>
+  <div id="message">
+  </div>
+</div>
+<%= drop_receiving_element('green',                           # The id of the receiving element
+  :accept => "photo",                                         # The CSS class of the dropped element
+  :with   => "'photo=' + (element.id.split('_').last())",     # The query string parameters
+  :url    => {:action=>:green_circle}                         # The action to call
+)%>
+
+<%= drop_receiving_element('yellow',                          # The id of the receiving element
+  :accept => "photo",                                         # The CSS class of the dropped element
+  :with   => "'photo=' + (element.id.split('_').last())",     # The query string parameters
+  :url    => {:action=>:yellow_circle}                        # The action to call
+)%>

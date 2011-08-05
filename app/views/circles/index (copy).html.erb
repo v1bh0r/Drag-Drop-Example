@@ -1,0 +1,18 @@
+<h1>My Buckets</h1>
+<% comment_id = "comment_#{1}" %>
+<div style="height: 350px; width: 400px">
+  <div class="comment" id=<%= comment_id %> >
+    <%=image_tag "http://www.celebs101.com/media/2010/6/10/Kim-Kardashian.jpg" %>
+  </div>
+</div>
+<div id = "trash_icon">
+<%= image_tag("circle-green.png",:size=>"125x125", :id=>'trash')%>
+</div>
+<%= draggable_element(comment_id, :revert=>true, :onStart=> "function(){
+			    alert(\"Started\")}") %>
+<%= drop_receiving_element('trash',                             # The id of the receiving element
+  :accept => "comment",                                         # The CSS class of the dropped element
+  :with   => "'comment=' + (element.id.split('_').last())",     # The query string parameters
+  :url    => {:action=>:delete_me},                              # The action to call
+  :loading => visual_effect(:fade)
+)%>
